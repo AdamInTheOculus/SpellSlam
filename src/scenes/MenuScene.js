@@ -11,7 +11,6 @@ class MenuScene extends Phaser.Scene {
         this.scene.bringToTop();
 
         this.registry.set('restartScene', false);
-        this.registry.set('attractMode', true);
 
         let sh = window.screen.availHeight;
         let sw = window.screen.availWidth;
@@ -30,7 +29,7 @@ class MenuScene extends Phaser.Scene {
         el.style.width = 400 * multiplier + 'px';
         el.style.height = 240 * multiplier + 'px';
 
-        this.pressX = this.add.bitmapText(16 * 8 + 4, 8 * 16, 'font', 'PRESS TO START', 8);
+        this.pressSTART = this.add.bitmapText(16 * 9, 16 * 6.5, 'font', 'PRESS TO START', 8);
         this.blink = 1000;
 
         this.startKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
@@ -46,24 +45,20 @@ class MenuScene extends Phaser.Scene {
         }
         this.blink -= delta;
         if (this.blink < 0) {
-            this.pressX.alpha = this.pressX.alpha === 1 ? 0 : 1;
+            this.pressSTART.alpha = this.pressSTART.alpha === 1 ? 0 : 1;
             this.blink = 500;
         }
 
-        if (!this.registry.get('attractMode')) {}
         if (this.startKey.isDown) {
             this.startGame();
         }
     }
 
     startGame() {
-        this.scene.stop('GameScene');
-        this.registry.set('attractMode', false);
         this.scene.start('GameScene');
     }
 
     restartScene() {
-        //        this.attractMode.stop();
         this.scene.stop('GameScene');
         this.scene.launch('GameScene');
         this.scene.bringToTop();

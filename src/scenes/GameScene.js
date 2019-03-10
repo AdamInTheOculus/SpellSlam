@@ -224,10 +224,6 @@ class GameScene extends Phaser.Scene {
             this.record(delta);
         }
 
-        // this.fireballs.children.forEach((fire)=>{
-        //    fire.update(time, delta);
-        // })
-
         Array.from(this.fireballs.children.entries).forEach(
             (fireball) => {
                 fireball.update(time, delta);
@@ -332,13 +328,6 @@ class GameScene extends Phaser.Scene {
     }
 
     tileCollision(sprite, tile) {
-        if (sprite.type === 'turtle') {
-            //if (tile.y > Math.round(sprite.y / 16)) {
-                // Turtles ignore the ground
-                //return;
-            //}
-        }
-
         // If it's Mario and the body isn't blocked up it can't hit question marks or break bricks
         // Otherwise Mario will break bricks he touch from the side while moving up.
         if (sprite.type === 'mario' && !sprite.body.blocked.up) {
@@ -404,83 +393,9 @@ class GameScene extends Phaser.Scene {
         }
     }
 
-    /* * To be removed, supported natively now:
-     * setCollisionByProperty(map) {
-      Object.keys(map.tilesets[0].tileProperties).forEach(
-        (id) => {
-
-          if (map.tilesets[0].tileProperties[id].collide) {
-            map.setCollision(parseInt(id) + 1);
-          }
-        }
-      )
-    } */
-
     updateScore(score) {
         this.score.pts += score;
         this.score.textObject.setText(('' + this.score.pts).padStart(6, '0'));
-    }
-
-    removeFlag(step = 0) {
-        switch (step) {
-            case 0:
-                this.music.pause();
-                this.sound.playAudioSprite('sfx', 'smb_flagpole');
-                this.mario.play('mario/climb' + this.mario.animSuffix);
-                this.mario.x = this.finishLine.x - 1;
-                this.tweens.add({
-                    targets: this.finishLine.flag,
-                    y: 240 - 6 * 8,
-                    duration: 1500,
-                    onComplete: () => this.removeFlag(1)
-                });
-                this.tweens.add({
-                    targets: this.mario,
-                    y: 240 - 3 * 16,
-                    duration: 1000,
-                    onComplete: () => {
-                        this.mario.flipX = true;
-                        this.mario.x += 11;
-                    }
-                });
-                break;
-            case 1:
-                let sound = this.sound.addAudioSprite('sfx');
-                sound.on('ended', (sound) => {
-                    /* this.mario.x = 48;
-                    this.mario.y = -32;
-                    this.mario.body.setVelocity(0);
-                    this.mario.alpha = 1;
-                    this.music.rate = 1;
-                    this.music.seek = 0;
-                    this.music.resume();
-                    this.levelTimer.hurry = false;
-                    this.levelTimer.time = 150 * 1000;
-                    this.levelTimer.displayedTime = 255;
-                    this.physics.world.resume(); */
-                    sound.destroy();
-                    this.scene.start('MenuScene');
-                });
-                sound.play('smb_stage_clear');
-
-                this.mario.play('run' + this.mario.animSuffix);
-
-                this.mario.flipX = false;
-                this.tweens.add({
-                    targets: this.mario,
-                    x: this.finishLine.x + 6 * 16,
-                    duration: 1000,
-                    onComplete: () => this.removeFlag(2)
-                });
-                break;
-            case 2:
-                this.tweens.add({
-                    targets: this.mario,
-                    alpha: 0,
-                    duration: 500
-                });
-                break;
-        }
     }
 
     toggleTouch() {

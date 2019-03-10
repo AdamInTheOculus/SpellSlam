@@ -247,8 +247,8 @@ export default class Mage extends Phaser.GameObjects.Sprite {
     }
 
     large() {
-        this.body.setSize(10, 22);
-        this.body.offset.set(3, 10);
+        this.body.setSize(10, 30);
+        this.body.offset.set(3, 0);
     }
 
     die() {
