@@ -1,27 +1,13 @@
-class TitleScene extends Phaser.Scene {
+class MenuScene extends Phaser.Scene {
     constructor(test) {
         super({
-            key: 'TitleScene'
+            key: 'MenuScene'
         });
     }
     preload() {
         this.load.atlas('mario-sprites', 'assets/mario-sprites.png', 'assets/mario-sprites.json');
     }
     create() {
-        let config = {
-            key: 'title',
-            frames: [{
-                frame: 'title',
-                key: 'mario-sprites'
-            }]
-        };
-        this.anims.create(config);
-
-        this.title = this.add.sprite(this.sys.game.config.width / 2, 16 * 5);
-        this.title.play('title');
-        this.attractMode = this.scene.launch('GameScene');
-        console.log(this.attractMode.stop);
-
         this.scene.bringToTop();
 
         this.registry.set('restartScene', false);
@@ -44,7 +30,7 @@ class TitleScene extends Phaser.Scene {
         el.style.width = 400 * multiplier + 'px';
         el.style.height = 240 * multiplier + 'px';
 
-        this.pressX = this.add.bitmapText(16 * 8 + 4, 8 * 16, 'font', 'PRESS X TO START', 8);
+        this.pressX = this.add.bitmapText(16 * 8 + 4, 8 * 16, 'font', 'PRESS TO START', 8);
         this.blink = 1000;
 
         this.startKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
@@ -86,4 +72,4 @@ class TitleScene extends Phaser.Scene {
     }
 }
 
-export default TitleScene;
+export default MenuScene;

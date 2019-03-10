@@ -20,15 +20,9 @@ class GameScene extends Phaser.Scene {
     create() {
         // This scene is either called to run in attract mode in the background of the title screen
         // or for actual gameplay. Attract mode is based on a JSON-recording.
-        if (this.registry.get('attractMode')) {
-            this.attractMode = {
-                recording: this.sys.cache.json.entries.entries.attractMode,
-                current: 0,
-                time: 0
-            };
-        } else {
-            this.attractMode = null;
-        }
+
+        this.attractMode = null;
+
 
         // Places to warp to (from pipes). These coordinates is used also to define current room (see below)
         this.destinations = {};
@@ -143,7 +137,6 @@ class GameScene extends Phaser.Scene {
             flag: this.add.sprite(worldEndAt + 8, 4 * 16),
             active: false
         };
-        this.finishLine.flag.play('flag');
 
         // Touch controls is really just a quick hack to try out performance on mobiles,
         // It's not itended as a suggestion on how to do it in a real game.
@@ -295,12 +288,6 @@ class GameScene extends Phaser.Scene {
             return;
         }
 
-        if (this.mario.x > this.finishLine.x && this.finishLine.active) {
-            //this.removeFlag();
-            //this.physics.world.pause();
-            //return;
-        }
-
         this.levelTimer.time -= delta * 2;
         if (this.levelTimer.time - this.levelTimer.displayedTime * 1000 < 1000) {
             this.levelTimer.displayedTime = Math.round(this.levelTimer.time / 1000);
@@ -346,15 +333,10 @@ class GameScene extends Phaser.Scene {
 
     tileCollision(sprite, tile) {
         if (sprite.type === 'turtle') {
-            if (tile.y > Math.round(sprite.y / 16)) {
+            //if (tile.y > Math.round(sprite.y / 16)) {
                 // Turtles ignore the ground
-                return;
-            }
-        } else if (sprite.type === 'mario') {
-            // Mario is bending on a pipe that leads somewhere:
-            if (sprite.bending && tile.properties.pipe && tile.properties.dest) {
-                sprite.enterPipe(tile.properties.dest, tile.rotation);
-            }
+                //return;
+            //}
         }
 
         // If it's Mario and the body isn't blocked up it can't hit question marks or break bricks
@@ -477,7 +459,7 @@ class GameScene extends Phaser.Scene {
                     this.levelTimer.displayedTime = 255;
                     this.physics.world.resume(); */
                     sound.destroy();
-                    this.scene.start('TitleScene');
+                    this.scene.start('MenuScene');
                 });
                 sound.play('smb_stage_clear');
 
