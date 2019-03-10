@@ -296,9 +296,9 @@ class GameScene extends Phaser.Scene {
         }
 
         if (this.mario.x > this.finishLine.x && this.finishLine.active) {
-            this.removeFlag();
-            this.physics.world.pause();
-            return;
+            //this.removeFlag();
+            //this.physics.world.pause();
+            //return;
         }
 
         this.levelTimer.time -= delta * 2;
