@@ -1,15 +1,10 @@
-export default class Fire extends Phaser.GameObjects.Sprite {
+export default class Ice extends Phaser.GameObjects.Sprite {
     constructor(scene) {
         super(scene);
         console.log(scene);
         // super(config.scene, config.x, config.y, config.key);
         this.hej = '!!!';
 
-        /* switch(config.type) {
-            case "shot":
-            case "obstacle":
-
-        } */
 
         this.scene.physics.world.enable(this);
 
@@ -25,17 +20,17 @@ export default class Fire extends Phaser.GameObjects.Sprite {
         }, this);
     }
 
-    fire(x, y, pointerX, pointerY) {
+    ice(x, y, pointerX, pointerY) {
         this.setActive(true);
         this.setVisible(true);
 
         this.body.allowGravity = true;
 
         this.setPosition(x, y);
-        this.angle = Phaser.Math.Angle.Between(x, y, this.scene.cameras.main.scrollX+pointerX, pointerY)
+        this.angle = Phaser.Math.Angle.Between(x, y, pointerX, pointerY)
         this.body.velocity.x =  400*Math.cos(this.angle);
         this.body.velocity.y = 400*Math.sin(this.angle);
-        this.play('fireFly');
+        this.play('ice_spell');
         this.scene.sound.playAudioSprite('sfx', 'smb_fireball');
 
         console.log(this.scene.physics.world.collide);

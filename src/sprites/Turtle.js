@@ -4,11 +4,11 @@ export default class Turtle extends Enemy {
     constructor(config) {
         super(config);
         this.flipX = true;
-        this.anims.play('turtle');
+        this.anims.play('skelegon');
         this.sliding = false;
         this.type = 'turtle';
-        this.body.setSize(12, 12);
-        this.body.offset.set(2, 2);
+        this.body.setSize(106, 132);
+        this.body.offset.set(-106/2, -132/2);
     }
 
     update() {
@@ -30,6 +30,15 @@ export default class Turtle extends Enemy {
             this.direction = -this.direction;
             this.body.velocity.x = this.direction;
             this.flipX = this.direction < 0;
+        }
+
+        // FLIP ANIMATION and reposition enemy BASED ON DIRECTION
+        if(Math.sign(this.direction)>0){
+          this.scaleX = 1;
+          this.body.offset.set(0, 0);
+        }else{
+          this.scaleX = -1;
+          this.body.offset.set(106/2, -132/2);
         }
     }
 
@@ -53,7 +62,7 @@ export default class Turtle extends Enemy {
         if (enemy.verticalHit(enemy, mario)) {
             // get points
             enemy.scene.updateScore(100);
-            if (!enemy.sliding || (enemy.sliding && enemy.body.velocity.x === 0)) {
+            /*if (!enemy.sliding || (enemy.sliding && enemy.body.velocity.x === 0)) {
                 enemy.scene.sound.playAudioSprite('sfx', 'smb_kick');
                 // enemy.body.height = 16;
                 enemy.direction = 150 * (mario.x < enemy.x ? 1 : -1);
@@ -69,7 +78,8 @@ export default class Turtle extends Enemy {
                 enemy.sliding = true;
                 enemy.play('turtleShell');
             }
-            mario.enemyBounce(enemy);
+            mario.enemyBounce(enemy);*/
+            enemy.play('skelegonDead');
         } else {
             if (enemy.sliding && enemy.body.velocity.x === 0) {
                 enemy.scene.sound.playAudioSprite('sfx', 'smb_kick');

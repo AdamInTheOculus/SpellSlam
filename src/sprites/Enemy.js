@@ -21,9 +21,8 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         // Base horizontal velocity / direction.
         this.direction = -50;
 
-        // Standard sprite is 16x16 pixels with a smaller body
-        this.body.setSize(12, 12);
-        this.body.offset.set(10, 12);
+        // Standard sprite is 22x32 pixels with a smaller body
+        this.body.setSize(22, 32);
     }
 
     activated() {
@@ -69,7 +68,6 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         this.body.velocity.x = 0;
         this.body.velocity.y = -200;
         this.alive = false;
-        this.flipY = true;
         this.scene.sound.playAudioSprite('sfx', 'smb_stomp');
         this.scene.updateScore(100);
     }

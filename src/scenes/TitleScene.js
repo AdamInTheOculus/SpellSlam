@@ -52,7 +52,7 @@ class TitleScene extends Phaser.Scene {
         this.input.on('pointerdown', () => {
             this.startGame();
         });
-    }
+      }
 
     update(time, delta) {
         if (this.registry.get('restartScene')) {

@@ -4,7 +4,7 @@ export default class Goomba extends Enemy {
     constructor(config) {
         super(config);
         this.body.setVelocity(0, 0).setBounce(0, 0).setCollideWorldBounds(false);
-        this.anims.play('goomba');
+        this.anims.play('skeleton');
         this.killAt = 0;
     }
 
@@ -32,6 +32,15 @@ export default class Goomba extends Enemy {
             this.direction = -this.direction;
             this.body.velocity.x = this.direction;
         }
+
+        // FLIP ANIMATION and reposition enemy BASED ON DIRECTION
+        if(Math.sign(this.direction)>0){
+          this.scaleX = 1;
+          this.body.offset.set(0, 0);
+        }else{
+          this.scaleX = -1;
+          this.body.offset.set(22, 0);
+        }
     }
 
     marioHit(enemy, mario) {
@@ -49,10 +58,10 @@ export default class Goomba extends Enemy {
     }
 
     getFlat(enemy, mario) {
-        enemy.play('goombaFlat');
+        enemy.play('skeletonDead');
         enemy.body.setVelocityX(0);
         enemy.body.acceleration.x = 0;
-        // Keep goomba flat for 500ms, then remove it.
-        enemy.killAt = 500;
+        // Keep goomba flat for 3700ms, then remove it.
+        enemy.killAt = 3700;
     }
 }

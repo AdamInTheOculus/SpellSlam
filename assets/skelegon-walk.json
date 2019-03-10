@@ -1,0 +1,60 @@
+{"frames": [
+
+	{
+		"filename": "skelegon/walk1",
+		"frame": {"x":0,"y":132,"w":106,"h":132},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/walk2",
+		"frame": {"x":212,"y":0,"w":106,"h":132},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/walk3",
+		"frame": {"x":105,"y":132,"w":106,"h":132},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/walk4",
+		"frame": {"x":212,"y":132,"w":106,"h":132},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/walk5",
+		"frame": {"x":318,"y":132,"w":106,"h":132},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/walk5",
+		"frame": {"x":318,"y":0,"w":106,"h":132},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "/images/skelegon.png",
+	"format": "RGBA8888",
+	"size": {"w":1156,"h":545},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:da944747ff292ea73f90ded90ffae4f6:5a6fbb798dd9828bab4f10142fd6dc80:4f58bece13d73f4757a743d8358f7b7b$"
+}
+}

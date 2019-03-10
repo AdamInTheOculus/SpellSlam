@@ -1,16 +1,16 @@
-export default class Mario extends Phaser.GameObjects.Sprite {
+export default class Mage extends Phaser.GameObjects.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, config.key);
         config.scene.physics.world.enable(this);
         config.scene.add.existing(this);
-        this.acceleration = 600;
+        this.acceleration = 150;
         this.body.maxVelocity.x = 200;
         this.body.maxVelocity.y = 500;
         this.animSuffix = '';
         this.small();
 
-        // this.animSuffix = 'Super';
-        // this.large();
+        this.animSuffix = 'Fire';
+        this.large();
 
         this.bending = false;
         this.wasHurt = -1;
@@ -27,6 +27,8 @@ export default class Mario extends Phaser.GameObjects.Sprite {
         this.jumpTimer = 0;
         this.jumping = false;
         this.fireCoolDown = 0;
+
+        this.spells = new Array(2);
 
         this.on('animationcomplete', () => {
             if (this.anims.currentAnim.key === 'grow' || this.anims.currentAnim.key === 'shrink') {
@@ -94,10 +96,10 @@ export default class Mario extends Phaser.GameObjects.Sprite {
             fire: keys.fire.isDown
         };
 
-        if (input.fire && this.animSuffix === 'Fire' && this.fireCoolDown < 0) {
+        if(input.fire && this.animSuffix === 'Fire' && this.fireCoolDown < 0) {
             let fireball = this.scene.fireballs.get(this);
             if (fireball) {
-                fireball.fire(this.x, this.y, this.flipX);
+                fireball.fire(this.x, this.y, keys.fire.x, keys.fire.y);
                 this.fireCoolDown = 300;
             }
         }
@@ -250,12 +252,12 @@ export default class Mario extends Phaser.GameObjects.Sprite {
     }
 
     die() {
-        this.scene.music.pause();
+        /*this.scene.music.pause();
         this.play('death');
         this.scene.sound.playAudioSprite('sfx', 'smb_mariodie');
         this.body.setAcceleration(0);
         this.body.setVelocity(0, -300);
-        this.alive = false;
+        this.alive = false;*/
     }
 
     enterPipe(id, dir, init = true) {
@@ -295,6 +297,9 @@ export default class Mario extends Phaser.GameObjects.Sprite {
         rooms.forEach(
             (room) => {
                 if (this.x >= room.x && this.x <= (room.x + room.width)) {
+                    if (this.x >= room.x && this.x <= (room.x + room.width)) {
+
+                    }
                     let cam = this.scene.cameras.main;
                     let layer = this.scene.groundLayer;
                     cam.setBounds(room.x, 0, room.width * layer.scaleX, layer.height * layer.scaleY);

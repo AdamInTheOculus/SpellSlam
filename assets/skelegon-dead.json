@@ -1,0 +1,76 @@
+{"frames": [
+
+	{
+		"filename": "skelegon/dead1",
+		"frame": {"x":0,"y":396,"w":33,"h":32},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/dead2",
+		"frame": {"x":106,"y":396,"w":33,"h":32},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/dead3",
+		"frame": {"x":212,"y":396,"w":33,"h":32},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/dead4",
+		"frame": {"x":318,"y":396,"w":33,"h":32},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/dead5",
+		"frame": {"x":414,"y":396,"w":33,"h":32},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/dead6",
+		"frame": {"x":520,"y":396,"w":33,"h":32},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/dead7",
+		"frame": {"x":626,"y":396,"w":33,"h":32},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	},
+	{
+		"filename": "skelegon/dead8",
+		"frame": {"x":732,"y":396,"w":33,"h":32},
+		"rotated": false,
+		"trimmed": false,
+		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+		"sourceSize": {"w":106,"h":132}
+	}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "/images/skelegon.png",
+	"format": "RGBA8888",
+	"size": {"w":1156,"h":545},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:da944747ff292ea73f90ded90ffae4f6:5a6fbb798dd9828bab4f10142fd6dc80:4f58bece13d73f4757a743d8358f7b7b$"
+}
+}

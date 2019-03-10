@@ -1,4 +1,4 @@
-import Mario from '../sprites/Mario';
+import Mage from '../sprites/Mage';
 import Goomba from '../sprites/Goomba';
 import Turtle from '../sprites/Turtle';
 import PowerUp from '../sprites/PowerUp';
@@ -80,12 +80,25 @@ class GameScene extends Phaser.Scene {
         // Populate enemyGroup, powerUps, pipes and destinations from object layers
         this.parseObjectLayers();
 
-        // this.keys will contain all we need to control Mario.
+        // activate gamepad
+        //pad1 = this.input.gamepad.pad1;
+        //pad1.addCallbacks(this, { onConnect: addButtons });
+
+        // this.controls will contain all we need to control Mario.
         // Any key could just replace the default (like this.key.jump)
-        this.keys = {
+        /*this.controls = {
             jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP),
             jump2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X),
-            fire: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
+            fire: this.input.activePointer,
+            left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
+            right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT),
+            down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
+        };*/
+
+        this.controls = {
+            jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP),
+            jump2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X),
+            fire: this.input.activePointer,
             left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
             right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT),
             down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
@@ -191,7 +204,7 @@ class GameScene extends Phaser.Scene {
         this.physics.world.resume();
 
         // CREATE MARIO!!!
-        this.mario = new Mario({
+        this.mario = new Mage({
             scene: this,
             key: 'mario',
             x: 16 * 6,
@@ -256,7 +269,7 @@ class GameScene extends Phaser.Scene {
                 this.mario.y = this.attractMode.recording[this.attractMode.current].y;
                 this.mario.body.setVelocity(this.attractMode.recording[this.attractMode.current].vx, this.attractMode.recording[this.attractMode.current].vy);
             }
-            this.keys = {
+            this.controls = {
                 jump: {
                     isDown: this.attractMode.recording[this.attractMode.current].keys.jump
                 },
@@ -314,7 +327,7 @@ class GameScene extends Phaser.Scene {
         }
 
         // Run the update method of Mario
-        this.mario.update(this.keys, time, delta);
+        this.mario.update(this.controls, time, delta);
 
         // Run the update method of all enemies
         this.enemyGroup.children.entries.forEach(
@@ -502,11 +515,11 @@ class GameScene extends Phaser.Scene {
     record(delta) {
         let update = false;
         let keys = {
-            jump: this.keys.jump.isDown || this.keys.jump2.isDown,
-            left: this.keys.left.isDown,
-            right: this.keys.right.isDown,
-            down: this.keys.down.isDown,
-            fire: this.keys.fire.isDown
+            jump: this.controls.jump.isDown || this.controls.jump2.isDown,
+            left: this.controls.left.isDown,
+            right: this.controls.right.isDown,
+            down: this.controls.down.isDown,
+            fire: this.controls.fire.isDown
         };
         if (typeof (recording) === 'undefined') {
             console.log('DEFINE');

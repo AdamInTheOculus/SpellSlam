@@ -105,7 +105,54 @@ export default function makeAnimations(scene) {
     scene.anims.create(config);
 
     // ALL MARIO ANIMATIONS DONE
-
+    config = {
+        key: 'skelegon',
+        frames: scene.anims.generateFrameNames('skelegon-walk', {
+            prefix: 'skelegon/walk',
+            start: 1,
+            end: 5
+        }),
+        frameRate: 5,
+        repeat: -1,
+        repeatDelay: 0
+    };
+    scene.anims.create(config);
+    config = {
+        key: 'skelegonDead',
+        frames: scene.anims.generateFrameNames('skelegon-dead', {
+            prefix: 'skelegon/dead',
+            start: 1,
+            end: 8
+        }),
+        frameRate: 4,
+        repeat: -1,
+        repeatDelay: 0
+    };
+    scene.anims.create(config);
+    config = {
+        key: 'skeleton',
+        frames: scene.anims.generateFrameNames('skeleton-walk', {
+            prefix: 'skeleton/walk',
+            start: 1,
+            end: 13
+        }),
+        frameRate: 5,
+        repeat: -1,
+        repeatDelay: 0
+    };
+    scene.anims.create(config);
+    config = {
+        key: 'skeletonDead',
+        frames: scene.anims.generateFrameNames('skeleton-dead', {
+            prefix: 'skeleton/dead',
+            start: 1,
+            end: 16
+        }),
+        frameRate: 4,
+        repeat: -1,
+        repeatDelay: 0
+    };
+    scene.anims.create(config);
     config = {
         key: 'goomba',
         frames: scene.anims.generateFrameNames('mario-sprites', {
@@ -136,7 +183,6 @@ export default function makeAnimations(scene) {
         repeat: -1,
         repeatDelay: 0
     };
-
     scene.anims.create(config);
     config = {
         key: 'mario/climb',
@@ -159,9 +205,7 @@ export default function makeAnimations(scene) {
         repeat: -1,
         repeatDelay: 0
     };
-
     scene.anims.create(config);
-
     config = {
         key: 'flag',
         frames: [{
@@ -171,7 +215,6 @@ export default function makeAnimations(scene) {
         repeat: -1
     };
     scene.anims.create(config);
-
     config = {
         key: 'turtleShell',
         frames: [{
@@ -179,19 +222,15 @@ export default function makeAnimations(scene) {
             key: 'mario-sprites'
         }]
     };
-
     scene.anims.create(config);
-
     config = {
         key: 'mushroom',
         frames: [{
             frame: 'powerup/super',
             key: 'mario-sprites'
         }]
-
     };
     scene.anims.create(config);
-
     config = {
         key: 'coin',
         frames: scene.anims.generateFrameNames('mario-sprites', {
@@ -253,6 +292,19 @@ export default function makeAnimations(scene) {
             frame: 'controller/button',
             key: 'mario-sprites'
         }]
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'ice_spell',
+        frames: scene.anims.generateFrameNames('ice-spell', {
+            prefix: 'ice/icicle',
+            start: 1,
+            end: 3
+        }),
+        frameRate: 10,
+        repeat: -1,
+        repeatDelay: 0
     };
     scene.anims.create(config);
 
