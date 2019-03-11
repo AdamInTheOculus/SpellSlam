@@ -6,27 +6,27 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         this.acceleration = 150;
         this.body.maxVelocity.x = 200;
         this.body.maxVelocity.y = 500;
-        this.animSuffix = '';
-        this.small();
 
         this.animSuffix = 'Fire';
         this.large();
+        this.fireCoolDown = 0;
 
-        this.bending = false;
-        this.wasHurt = -1;
-        this.flashToggle = false;
-        this.star = {
+        // STATE variables
+        //this.crouching = false;
+        //this.wasHurt = -1;
+        this.hp = 100;
+        //this.flashToggle = false;
+        /*this.star = {
             active: false,
             timer: -1,
             step: 0
-        };
+        };*/
         this.enteringPipe = false;
         this.anims.play('stand');
         this.alive = true;
         this.type = 'mario';
         this.jumpTimer = 0;
         this.jumping = false;
-        this.fireCoolDown = 0;
 
         this.spells = new Array(2);
 
@@ -40,22 +40,14 @@ export default class Mage extends Phaser.GameObjects.Sprite {
     update(keys, time, delta) {
         if (this.y > 2040) {
             // Really superdead, has been falling for a while.
-            this.scene.scene.start('TitleScene');
-
-            // If Mario falls down a cliff or died, just let him drop from the sky and prentend like nothing happened
-            // this.y = -32;
-            // if(this.x<16){
-            //   this.x = 16;
-            // }
-            // this.alive = true;
-            // this.scene.music.seek = 0;
-            // this.scene.music.play();
+            this.scene.scene.stop('GameScene');
+            this.scene.scene.start('MenuScene');
         } else if (this.y > 240 && this.alive) {
             this.die();
         }
 
         // Don't do updates while entering the pipe or being dead
-        if (this.enteringPipe || !this.alive) {
+        if (!this.alive) {
             return;
         }
 
@@ -77,6 +69,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
             }
         }
 
+        /*  flashing star power code
         if (this.star.active) {
             if (this.star.timer < 0) {
                 this.star.active = false;
@@ -86,7 +79,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
                 this.star.step = (this.star.step === 5) ? 0 : this.star.step + 1;
                 this.tint = [0xFFFFFF, 0xFF0000, 0xFFFFFF, 0x00FF00, 0xFFFFFF, 0x0000FF][this.star.step];
             }
-        }
+        }*/
 
         let input = {
             left: keys.left.isDown || this.scene.touchControls.left,
@@ -100,20 +93,18 @@ export default class Mage extends Phaser.GameObjects.Sprite {
             let fireball = this.scene.fireballs.get(this);
             if (fireball) {
                 fireball.fire(this.x, this.y, keys.fire.x, keys.fire.y);
-                this.fireCoolDown = 300;
+                this.fireCoolDown = 250;
             }
         }
 
-        // this.angle++
-        //  console.log(this.body.velocity.y);
         if (this.body.velocity.y > 0) {
             this.hasFalled = true;
         }
 
-        this.bending = false;
-
+        this.crouching = false;
         this.jumpTimer -= delta;
 
+        // MARIO CONTROLLER
         if (input.left) {
             if (this.body.velocity.y === 0) {
                 this.run(-this.acceleration);
@@ -214,17 +205,9 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         if (!this.alive) {
             return;
         }
-        if (this.star.active) {
-            enemy.starKilled(enemy, this);
-        } else if (this.wasHurt < 1) {
-            if (this.animSuffix !== '') {
-                this.resize(false);
-                this.scene.sound.playAudioSprite('sfx', 'smb_pipe');
-
-                this.wasHurt = 2000;
-            } else {
-                this.die();
-            }
+        if (this.wasHurt < 1) { // Mage was hurt by enemy
+          this.hp -= 10;
+          console.log(this.hp)
         }
     }
 
@@ -260,39 +243,6 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         this.alive = false;*/
     }
 
-    enterPipe(id, dir, init = true) {
-        if (init) {
-            if (this.animSuffix === '') {
-                this.play('stand');
-            } else {
-                this.play('bend' + this.animSuffix);
-            }
-            this.scene.sound.playAudioSprite('sfx', 'smb_pipe');
-
-            this.enteringPipe = true;
-            this.body.setVelocity(0);
-            this.body.setAcceleration(0);
-            this.setDepth(-100);
-            this.scene.tweens.add({
-                targets: this,
-                y: this.y + 40,
-                duration: 800,
-                onComplete: function () {
-                    console.log(this.targets, id, dir);
-                    console.log(id);
-                    console.log(dir);
-                    this.targets[0].enterPipe(id, dir, false);
-                }
-            });
-        } else {
-            this.setDepth(1);
-            this.enteringPipe = false;
-            this.x = this.scene.destinations[id].x;
-            this.y = this.scene.destinations[id].top ? -100 : 100;
-            this.setRoomBounds(this.scene.rooms);
-        }
-    }
-
     setRoomBounds(rooms) {
         rooms.forEach(
             (room) => {
@@ -303,7 +253,6 @@ export default class Mage extends Phaser.GameObjects.Sprite {
                     let cam = this.scene.cameras.main;
                     let layer = this.scene.groundLayer;
                     cam.setBounds(room.x, 0, room.width * layer.scaleX, layer.height * layer.scaleY);
-                    this.scene.finishLine.active = (room.x === 0);
                     this.scene.cameras.main.setBackgroundColor(room.sky);
                 }
             }

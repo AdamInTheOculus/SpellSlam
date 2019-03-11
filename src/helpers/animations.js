@@ -174,17 +174,6 @@ export default function makeAnimations(scene) {
     };
     scene.anims.create(config);
     config = {
-        key: 'turtle',
-        frames: scene.anims.generateFrameNames('mario-sprites', {
-            prefix: 'turtle/turtle',
-            end: 1
-        }),
-        frameRate: 5,
-        repeat: -1,
-        repeatDelay: 0
-    };
-    scene.anims.create(config);
-    config = {
         key: 'mario/climb',
         frames: scene.anims.generateFrameNames('mario-sprites', {
             prefix: 'mario/climb',
@@ -213,14 +202,6 @@ export default function makeAnimations(scene) {
             frame: 'flag'
         }],
         repeat: -1
-    };
-    scene.anims.create(config);
-    config = {
-        key: 'turtleShell',
-        frames: [{
-            frame: 'turtle/shell',
-            key: 'mario-sprites'
-        }]
     };
     scene.anims.create(config);
     config = {

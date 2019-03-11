@@ -1,6 +1,6 @@
 import Mage from '../sprites/Mage';
 import Goomba from '../sprites/Goomba';
-import Turtle from '../sprites/Turtle';
+import Skelegon from '../sprites/Skelegon';
 import PowerUp from '../sprites/PowerUp';
 import SMBTileSprite from '../sprites/SMBTileSprite';
 import AnimatedTiles from 'phaser-animated-tiles/dist/AnimatedTiles.min.js';
@@ -80,22 +80,14 @@ class GameScene extends Phaser.Scene {
 
         // this.controls will contain all we need to control Mario.
         // Any key could just replace the default (like this.key.jump)
-        /*this.controls = {
-            jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP),
-            jump2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X),
-            fire: this.input.activePointer,
-            left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
-            right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT),
-            down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
-        };*/
 
         this.controls = {
-            jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP),
-            jump2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X),
+            jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
+            jump2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
             fire: this.input.activePointer,
-            left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
-            right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT),
-            down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
+            left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
+            right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+            down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
         };
 
         // An emitter for bricks when blocks are destroyed.
@@ -123,20 +115,6 @@ class GameScene extends Phaser.Scene {
 
         this.createHUD();
 
-        // Prepare the finishLine
-        let worldEndAt = -1;
-        for (let x = 0; x < this.groundLayer.width; x++) {
-            let tile = this.groundLayer.getTileAt(x, 2);
-            if (tile && tile.properties.worldsEnd) {
-                worldEndAt = tile.pixelX;
-                break;
-            }
-        }
-        this.finishLine = {
-            x: worldEndAt,
-            flag: this.add.sprite(worldEndAt + 8, 4 * 16),
-            active: false
-        };
 
         // Touch controls is really just a quick hack to try out performance on mobiles,
         // It's not itended as a suggestion on how to do it in a real game.
@@ -188,11 +166,6 @@ class GameScene extends Phaser.Scene {
         });
         window.toggleTouch = this.toggleTouch.bind(this);
 
-        // Mute music while in attract mode
-        if (this.attractMode) {
-            this.music.volume = 0;
-        }
-
         // If the game ended while physics was disabled
         this.physics.world.resume();
 
@@ -217,6 +190,8 @@ class GameScene extends Phaser.Scene {
             maxSize: 10,
             runChildUpdate: false // Due to https://github.com/photonstorm/phaser/issues/3724
         });
+
+        // ADD SKELEGON TILES TO MAP
     }
 
     update(time, delta) {
@@ -229,85 +204,14 @@ class GameScene extends Phaser.Scene {
                 fireball.update(time, delta);
             });
 
-        /* console.log(time); */
-        if (this.attractMode) {
-            this.attractMode.time += delta;
-
-            // console.log(this.attractMode.current);
-            // console.log(this.attractMode.current, this.attractMode.recording.length);
-
-            if (this.mario.y > 240 || (this.attractMode.recording.length <= this.attractMode.current + 2) || this.attractMode.current === 14000) {
-                this.attractMode.current = 0;
-                this.attractMode.time = 0;
-                this.mario.x = 16 * 6; // 3500,
-                this.tick = 0;
-                this.registry.set('restartScene', true);
-
-                // this.scene.stop();
-                // this.scene.switch('GameScene');
-                // this.create();
-                console.log('RESET');
-
-                // this.mario.y = this.sys.game.config.height - 48 -48
-                // return;
-            }
-
-            if (this.attractMode.time >= this.attractMode.recording[this.attractMode.current + 1].time) {
-                this.attractMode.current++;
-                this.mario.x = this.attractMode.recording[this.attractMode.current].x;
-                this.mario.y = this.attractMode.recording[this.attractMode.current].y;
-                this.mario.body.setVelocity(this.attractMode.recording[this.attractMode.current].vx, this.attractMode.recording[this.attractMode.current].vy);
-            }
-            this.controls = {
-                jump: {
-                    isDown: this.attractMode.recording[this.attractMode.current].keys.jump
-                },
-                jump2: {
-                    isDown: false
-                },
-                left: {
-                    isDown: this.attractMode.recording[this.attractMode.current].keys.left
-                },
-                right: {
-                    isDown: this.attractMode.recording[this.attractMode.current].keys.right
-                },
-                down: {
-                    isDown: this.attractMode.recording[this.attractMode.current].keys.down
-                },
-                fire: {
-                    isDown: this.attractMode.recording[this.attractMode.current].keys.fire
-                }
-            };
-        }
-
         if (this.physics.world.isPaused) {
             return;
         }
 
-        this.levelTimer.time -= delta * 2;
-        if (this.levelTimer.time - this.levelTimer.displayedTime * 1000 < 1000) {
-            this.levelTimer.displayedTime = Math.round(this.levelTimer.time / 1000);
-            this.levelTimer.textObject.setText(('' + this.levelTimer.displayedTime).padStart(3, '0'));
-            if (this.levelTimer.displayedTime < 50 && !this.levelTimer.hurry) {
-                this.levelTimer.hurry = true;
-                this.music.pause();
-                let sound = this.sound.addAudioSprite('sfx');
-                sound.on('ended', (sound) => {
-                    this.music.seek = 0;
-                    this.music.rate = 1.5;
-                    this.music.resume();
-                    sound.destroy();
-                });
-                sound.play('smb_warning');
-            }
-            if (this.levelTimer.displayedTime < 1) {
-                this.mario.die();
-                this.levelTimer.hurry = false;
-                this.music.rate = 1;
-                this.levelTimer.time = 150 * 1000;
-                this.levelTimer.displayedTime = 255;
-            }
-        }
+        this.levelTimer.time += 1;
+        this.levelTimer.displayedTime = Math.round(this.levelTimer.time / 100);
+        this.levelTimer.textObject.setText(('' + this.levelTimer.displayedTime).padStart(3, '0'));
+
 
         // Run the update method of Mario
         this.mario.update(this.controls, time, delta);
@@ -328,6 +232,13 @@ class GameScene extends Phaser.Scene {
     }
 
     tileCollision(sprite, tile) {
+        if (sprite.type === 'Skelegon') {
+            if (tile.y > Math.round(sprite.y / 16)) {
+                // Skelegons ignore the ground
+                return;
+            }
+        }
+
         // If it's Mario and the body isn't blocked up it can't hit question marks or break bricks
         // Otherwise Mario will break bricks he touch from the side while moving up.
         if (sprite.type === 'mario' && !sprite.body.blocked.up) {
@@ -464,10 +375,10 @@ class GameScene extends Phaser.Scene {
                             y: enemy.y
                         });
                         break;
-                    case 'turtle':
-                        enemyObject = new Turtle({
+                    case 'Skelegon':
+                        enemyObject = new Skelegon({
                             scene: this,
-                            key: 'mario-sprites',
+                            key: 'skelegon-walk',
                             x: enemy.x,
                             y: enemy.y
                         });
@@ -532,12 +443,12 @@ class GameScene extends Phaser.Scene {
     }
 
     createHUD() {
-        const hud = this.add.bitmapText(5 * 8, 8, 'font', 'MARIO                      TIME', 8);
+        const hud = this.add.bitmapText(5 * 8, 8, 'font', 'MAGE                      TIME', 8);
         hud.setScrollFactor(0, 0);
         this.levelTimer = {
-            textObject: this.add.bitmapText(36 * 8, 16, 'font', '255', 8),
-            time: 150 * 1000,
-            displayedTime: 255,
+            textObject: this.add.bitmapText(36 * 8, 16, 'font', '0000', 8),
+            time: 0 * 1000,
+            displayedTime: 0,
             hurry: false
         };
         this.levelTimer.textObject.setScrollFactor(0, 0);
@@ -547,11 +458,8 @@ class GameScene extends Phaser.Scene {
         };
         this.score.textObject.setScrollFactor(0, 0);
 
-        if (this.attractMode) {
-            hud.alpha = 0;
-            this.levelTimer.textObject.alpha = 0;
-            this.score.textObject.alpha = 0;
-        }
+
+        // SPELL INVENTORY
     }
 
     cleanUp() {

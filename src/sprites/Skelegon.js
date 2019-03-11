@@ -1,14 +1,14 @@
 import Enemy from './Enemy';
 
-export default class Turtle extends Enemy {
+export default class Skelegon extends Enemy {
     constructor(config) {
         super(config);
         this.flipX = true;
         this.anims.play('skelegon');
         this.sliding = false;
-        this.type = 'turtle';
-        this.body.setSize(106, 132);
-        this.body.offset.set(-106/2, -132/2);
+        this.type = 'Skelegon';
+        this.body.setSize(106, 122);
+        this.body.offset.set(-106/2, -122/2);
     }
 
     update() {
@@ -42,7 +42,7 @@ export default class Turtle extends Enemy {
         }
     }
 
-    slidekill(turtle, victim) {
+    slidekill(Skelegon, victim) {
         if (typeof victim.starKilled !== 'undefined') {
             victim.starKilled();
         }
@@ -69,17 +69,17 @@ export default class Turtle extends Enemy {
 
                 enemy.body.velocity.x = enemy.direction;
                 enemy.sliding = true;
-                enemy.play('turtleShell');
+                enemy.play('SkelegonShell');
             } else {
                 enemy.scene.sound.playAudioSprite('sfx', 'smb_stomp');
 
                 enemy.direction = 0;
                 enemy.body.velocity.x = 0;
                 enemy.sliding = true;
-                enemy.play('turtleShell');
+                enemy.play('SkelegonShell');
             }
             mario.enemyBounce(enemy);*/
-            enemy.play('skelegonDead');
+            //enemy.play('skelegonDead');
         } else {
             if (enemy.sliding && enemy.body.velocity.x === 0) {
                 enemy.scene.sound.playAudioSprite('sfx', 'smb_kick');

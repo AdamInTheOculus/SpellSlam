@@ -671,30 +671,6 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":176,"h":88},
 	"sourceSize": {"w":176,"h":88}
-},
-{
-	"filename": "turtle/shell",
-	"frame": {"x":208,"y":32,"w":16,"h":24},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":24},
-	"sourceSize": {"w":16,"h":24}
-},
-{
-	"filename": "turtle/turtle0",
-	"frame": {"x":192,"y":32,"w":16,"h":24},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":24},
-	"sourceSize": {"w":16,"h":24}
-},
-{
-	"filename": "turtle/turtle1",
-	"frame": {"x":176,"y":32,"w":16,"h":24},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":24},
-	"sourceSize": {"w":16,"h":24}
 }],
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
