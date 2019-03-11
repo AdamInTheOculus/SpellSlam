@@ -19,7 +19,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         this.mario = this.scene.mario;
 
         // Base horizontal velocity / direction.
-        this.direction = -50;
+        this.direction = -25;
 
         // Standard sprite is 22x32 pixels with a smaller body
         this.body.setSize(22, 32);

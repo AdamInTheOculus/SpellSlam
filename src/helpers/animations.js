@@ -45,10 +45,14 @@ export default function makeAnimations(scene) {
 
     config = {
         key: 'mage-jump',
-        frames: [{
-            key: 'mage-sprite',
-            frame: 'mage/jump'
-        }]
+        frames: scene.anims.generateFrameNames('mage-sprite', {
+            prefix: 'mage/jump',
+            start: 1,
+            end: 3
+        }),
+        frameRate: 3,
+        repeat: -1,
+        repeatDelay: 0
     };
     scene.anims.create(config);
 
@@ -67,6 +71,19 @@ export default function makeAnimations(scene) {
             key: 'mage-sprite',
             frame: 'mage/turn'
         }]
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'mage-attk',
+        frames: scene.anims.generateFrameNames('mage-sprite', {
+            prefix: 'mage/attk',
+            start: 1,
+            end: 7
+        }),
+        frameRate: 7,
+        repeat: -1,
+        repeatDelay: 0
     };
     scene.anims.create(config);
     /////////////////////////////////////////

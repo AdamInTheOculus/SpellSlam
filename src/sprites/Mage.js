@@ -7,31 +7,33 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         this.body.maxVelocity.x = 200;
         this.body.maxVelocity.y = 500;
 
-        this.animSuffix = 'Fire';
-        this.large();
-        this.fireCoolDown = 0;
-
-        // STATE variables
         //this.crouching = false;
         //this.wasHurt = -1;
-        this.hp = 100;
         //this.flashToggle = false;
         /*this.star = {
             active: false,
             timer: -1,
             step: 0
         };*/
-        this.enteringPipe = false;
-        this.anims.play('mage-stand');
+
+        // STATE variables
+        this.hp = 100;
+        this.state = 'idle'
         this.alive = true;
         this.type = 'mario';
+
+        // TIMERS
         this.jumpTimer = 0;
-        this.jumping = false;
+        this.runTimer = 0;
+        this.attackTimer = 0;
 
         this.spells = new Array(2);
 
+        this.spells[0] = 'fire'
+        this.fireCoolDown = 0;
+
         this.on('animationcomplete', () => {
-            if (this.anims.currentAnim.key === 'grow' || this.anims.currentAnim.key === 'shrink') {
+            if (this.anims.currentAnim.key === 'mage-attk' || this.anims.currentAnim.key === 'mage-jump') {
                 this.scene.physics.world.resume();
             }
         }, this);
@@ -42,16 +44,21 @@ export default class Mage extends Phaser.GameObjects.Sprite {
             // Really superdead, has been falling for a while.
             this.scene.scene.stop('GameScene');
             this.scene.scene.start('MenuScene');
-        } else if (this.y > 240 && this.alive) {
-            this.die();
-        }
+        } //else if (this.y > 240 && this.alive) {
+            //this.die();
+        //}
 
         // Don't do updates while entering the pipe or being dead
         if (!this.alive) {
             return;
         }
 
+        // UPDATE TIMERS
         this.fireCoolDown -= delta;
+        this.jumpCoolDown -= delta;
+        this.runCoolDown -= delta;
+        this.crouching = false;
+        ////////////////
 
         // Just run callbacks when hitting something from below or trying to enter it
         if (this.body.velocity.y < 0 || this.bending) {
@@ -59,7 +66,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         } else {
             this.scene.physics.world.collide(this, this.scene.groundLayer);
         }
-
+        /*
         if (this.wasHurt > 0) {
             this.wasHurt -= delta;
             this.flashToggle = !this.flashToggle;
@@ -68,19 +75,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
                 this.alpha = 1;
             }
         }
-
-        /*  flashing star power code
-        if (this.star.active) {
-            if (this.star.timer < 0) {
-                this.star.active = false;
-                this.tint = 0xFFFFFF;
-            } else {
-                this.star.timer -= delta;
-                this.star.step = (this.star.step === 5) ? 0 : this.star.step + 1;
-                this.tint = [0xFFFFFF, 0xFF0000, 0xFFFFFF, 0x00FF00, 0xFFFFFF, 0x0000FF][this.star.step];
-            }
-        }*/
-
+        */
         let input = {
             left: keys.left.isDown || this.scene.touchControls.left,
             right: keys.right.isDown || this.scene.touchControls.right,
@@ -89,34 +84,34 @@ export default class Mage extends Phaser.GameObjects.Sprite {
             fire: keys.fire.isDown
         };
 
-        if(input.fire && this.animSuffix === 'Fire' && this.fireCoolDown < 0) {
-            let fireball = this.scene.fireballs.get(this);
-            if (fireball) {
-                fireball.fire(this.x, this.y, keys.fire.x, keys.fire.y);
-                this.fireCoolDown = 250;
-            }
+        if(input.fire && this.spells.includes('fire') && this.fireCoolDown < 0) {
+          this.fireCoolDown = 700;
+        }
+
+        if(this.fireCoolDown<=100&&this.state==='ATTACKING'){
+          let fireball = this.scene.fireballs.get(this);
+          if (fireball) {
+            fireball.fire(this.x, this.y, keys.fire.x, keys.fire.y);
+          }
         }
 
         if (this.body.velocity.y > 0) {
             this.hasFalled = true;
         }
 
-        this.crouching = false;
-        this.jumpTimer -= delta;
-
-        // MARIO CONTROLLER
+        // MAGE CONTROLLER
         if (input.left) {
             if (this.body.velocity.y === 0) {
                 this.run(-this.acceleration);
-            } else {
-                this.run(-this.acceleration / 3);
+            } else {  // jumping
+                this.run(-this.acceleration/2);
             }
             this.flipX = true;
         } else if (input.right) {
             if (this.body.velocity.y === 0) {
                 this.run(this.acceleration);
-            } else {
-                this.run(this.acceleration / 3);
+            } else {  // jumping
+                this.run(this.acceleration/2);
             }
             this.flipX = false;
         } else if (this.body.blocked.down) {
@@ -124,56 +119,54 @@ export default class Mage extends Phaser.GameObjects.Sprite {
                 this.body.setVelocityX(0);
                 this.run(0);
             } else {
-                this.run(((this.body.velocity.x > 0) ? -1 : 1) * this.acceleration / 2);
+                this.run(((this.body.velocity.x > 0) ? -1 : 1) * this.acceleration * 4);
             }
         } else if (!this.body.blocked.down) {
             this.run(0);
         }
 
-        if (input.jump && (!this.jumping || this.jumpTimer > 0)) {
+        if (input.jump && (!(this.state==='JUMPING') || this.jumpCoolDown > 0)) {
             this.jump();
         } else if (!input.jump) {
-            this.jumpTimer = -1; // Don't resume jump if button is released, prevents mini double-jumps
+            this.jumpCoolDown = -1; // Don't resume jump if button is released, prevents mini double-jumps
             if (this.body.blocked.down) {
-                this.jumping = false;
+                this.state = 'IDLE';
             }
         }
 
-        let anim = null;
-        if (this.body.velocity.y !== 0) {
-            this.anims.play('mage-jump');
-        } else if (this.body.velocity.x !== 0) {
-            this.anims.play('mage-run');
-            if ((input.left || input.right) && ((this.body.velocity.x > 0 && this.body.acceleration.x < 0) || (this.body.velocity.x < 0 && this.body.acceleration.x > 0))) {
-                //this.anims.play('mage-turn');
-            } else if (this.animSuffix !== '' && input.down && !(input.right || input.left)) {
-                this.anims.play('mage-bend');
-            }
-        } else {
-            if (this.animSuffix !== '' && input.down && !(input.right || input.left)) {
-                this.anims.play('mage-bend');
-            }else{
-              this.anims.play('mage-stand');
-            }
+        // ANIMATION STATE MACHINE
+        if (this.body.velocity.x !== 0) {
+            this.state = 'RUNNING';
+        }
+        if (input.jump && this.body.velocity.y !== 0) {
+            this.state = 'JUMPING'
+        }
+        if (input.down) {
+            this.state = 'BENDING';
         }
 
-        if (input.down && this.body.velocity.x < 100) {
-            this.bending = true;
+        if(input.fire||this.fireCoolDown>0){
+          this.state = 'ATTACKING';
+        }else if(this.body.velocity.y===0&&this.body.velocity.x===0){ // not moving
+          if(!input.down&&!input.jump&&!input.fire&&!(this.state==='ATTACKING')&&!(this.state==='JUMPING')){ // not jumping or attacking
+            this.state = 'IDLE';
+          }
         }
+
+        this.animationStateMachine(this.state);
 
         this.physicsCheck = true;
     }
 
     run(vel) {
         this.body.setAccelerationX(vel);
+        if (!(this.state==='RUNNING')) { // set jump cooldown
+            this.runCoolDown = 300;
+        }
     }
 
     jump() {
-        if (!this.body.blocked.down && !this.jumping) {
-            return;
-        }
-
-        if (!this.jumping) {
+        if (!(this.state==='JUMPING')) {
             if (this.animSuffix === '') {
                 this.scene.sound.playAudioSprite('sfx', 'smb_jump-small');
             } else {
@@ -183,10 +176,9 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         if (this.body.velocity.y < 0 || this.body.blocked.down) {
             this.body.setVelocityY(-200);
         }
-        if (!this.jumping) {
-            this.jumpTimer = 300;
+        if (!(this.state==='JUMPING')) { // set jump cooldown
+            this.jumpCoolDown = 300;
         }
-        this.jumping = true;
     }
 
     enemyBounce(enemy) {
@@ -207,29 +199,6 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         }
     }
 
-    resize(large) {
-        this.scene.physics.world.pause();
-        if (large) {
-            this.large();
-            this.animSuffix = 'Super';
-            this.play('grow');
-        } else {
-            this.small();
-            this.animSuffix = '';
-            this.play('shrink');
-        }
-    }
-
-    small() {
-        this.body.setSize(10, 10);
-        this.body.offset.set(3, 14);
-    }
-
-    large() {
-        this.body.setSize(10, 30);
-        this.body.offset.set(3, 0);
-    }
-
     die() {
         /*this.scene.music.pause();
         this.play('death');
@@ -237,6 +206,28 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         this.body.setAcceleration(0);
         this.body.setVelocity(0, -300);
         this.alive = false;*/
+    }
+
+    animationStateMachine(state) {
+      switch(state) {
+        case 'ATTACKING':
+          if(this.fireCoolDown===700)
+            this.anims.play('mage-attk');
+            break;
+        case 'RUNNING':
+          if(this.runCoolDown===300)
+            this.anims.play('mage-run');
+            break;
+        case 'JUMPING':
+          if(this.jumpCoolDown===300)
+            this.anims.play('mage-jump');
+            break;
+        case 'BENDING':
+          this.anims.play('mage-bend');
+          break;
+        case 'IDLE':
+          this.anims.play('mage-stand');
+      }
     }
 
     setRoomBounds(rooms) {
