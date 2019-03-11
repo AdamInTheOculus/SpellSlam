@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="20" nextobjectid="8">
+ <tileset firstgid="1" name="platformer_1" tilewidth="32" tileheight="32" tilecount="256" columns="16">
+  <image source="../tilesets/platformer_1.png" width="512" height="512"/>
+ </tileset>
+ <imagelayer id="19" name="Background">
+  <image source="../../../../../Downloads/landscape.png" width="1920" height="1080"/>
+ </imagelayer>
+ <layer id="17" name="Collidable" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2VFKw0AQBuC1nkCl+qyiPquoR/D+N3KDFVPd0E3bzVD2++CHPoQykJ20M0kJAE7LZ3QBnbvIuSzkKrKozqxGn29z7gq5D6iLlJ5zXgp5jSwKAqx2X0KQs+gC2KJXoI5eWcbPrDdntjtvVAu/s8WcWUKvwH/6gp6N57+/O3W/4cuZ2qfbr7dXOudT+3T79baGPiid8X3uxzrnpmWxHRhmjdKcoT8OV/PMr33eT71vmvP+qfd+qTnTS5xnO/lvNWe69fvU3nuixkPO4yZPwbWQ0lvO+yYfR/rOoQ+uR9ET9Y55P+yrDteiP9hf7e7DXmQZtbNE5P8yAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBT9AUJqhjr
+  </data>
+ </layer>
+ <objectgroup id="18" name="Collectables">
+  <object id="1" name="FlightOrb" gid="4" x="766.379" y="606.894" width="32" height="32">
+   <properties>
+    <property name="FlightTime" type="float" value="2"/>
+   </properties>
+  </object>
+  <object id="4" name="SpawnPoint1" type="SpawnPoint" x="46.1827" y="729.553">
+   <point/>
+  </object>
+  <object id="6" name="SpawnPoint2" type="SpawnPoint" x="249.675" y="946.034">
+   <point/>
+  </object>
+  <object id="7" name="Tombstone" type="Finish" gid="65" x="992.804" y="127.859" width="32" height="32"/>
+ </objectgroup>
+</map>
