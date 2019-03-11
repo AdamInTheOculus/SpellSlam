@@ -1,35 +1,100 @@
-{ "columns":7,
- "image":"images\/wizard-sprite.png",
- "imageheight":288,
- "imagewidth":336,
- "margin":0,
- "name":"mage-sprite",
- "spacing":0,
- "tilecount":42,
- "tileheight":48,
- "tiles":
-    {
-     "0":
-        {
-         "animation":[
-                {
-                 "duration":100,
-                 "tileid":14
-                }, 
-                {
-                 "duration":100,
-                 "tileid":15
-                }, 
-                {
-                 "duration":100,
-                 "tileid":16
-                }, 
-                {
-                 "duration":100,
-                 "tileid":17
-                }]
-        }
-    },
- "tilewidth":48,
- "type":"tileset"
+{"frames": [
+
+{
+	"filename": "mage/bend",
+	"frame": {"x":96,"y":160,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "mario/climb0",
+	"frame": {"x":208,"y":32,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "mario/climb1",
+	"frame": {"x":128,"y":32,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "mario/dead",
+	"frame": {"x":320,"y":32,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "mage/turn",
+	"frame": {"x":0,"y":160,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "mage/jump",
+	"frame": {"x":128,"y":128,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "mage/stand",
+	"frame": {"x":64,"y":0,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "mage/walk1",
+	"frame": {"x":0,"y":64,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "mage/walk2",
+	"frame": {"x":32,"y":64,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "mage/walk3",
+	"frame": {"x":64,"y":64,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "mage/walk4",
+	"frame": {"x":96,"y":64,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "wizard-sprite-32.png",
+	"format": "RGBA8888",
+	"size": {"w":224,"h":192},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:da944747ff292ea73f90ded90ffae4f6:5a6fbb798dd9828bab4f10142fd6dc80:4f58bece13d73f4757a743d8358f7b7b$"
+}
 }

@@ -22,7 +22,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
             step: 0
         };*/
         this.enteringPipe = false;
-        this.anims.play('stand');
+        this.anims.play('mage-stand');
         this.alive = true;
         this.type = 'mario';
         this.jumpTimer = 0;
@@ -141,24 +141,20 @@ export default class Mage extends Phaser.GameObjects.Sprite {
 
         let anim = null;
         if (this.body.velocity.y !== 0) {
-            anim = 'jump';
+            this.anims.play('mage-jump');
         } else if (this.body.velocity.x !== 0) {
-            anim = 'run';
+            this.anims.play('mage-run');
             if ((input.left || input.right) && ((this.body.velocity.x > 0 && this.body.acceleration.x < 0) || (this.body.velocity.x < 0 && this.body.acceleration.x > 0))) {
-                anim = 'turn';
+                //this.anims.play('mage-turn');
             } else if (this.animSuffix !== '' && input.down && !(input.right || input.left)) {
-                anim = 'bend';
+                this.anims.play('mage-bend');
             }
         } else {
-            anim = 'stand';
             if (this.animSuffix !== '' && input.down && !(input.right || input.left)) {
-                anim = 'bend';
+                this.anims.play('mage-bend');
+            }else{
+              this.anims.play('mage-stand');
             }
-        }
-
-        anim += this.animSuffix;
-        if (this.anims.currentAnim.key !== anim && !this.scene.physics.world.isPaused) {
-            this.anims.play(anim);
         }
 
         if (input.down && this.body.velocity.x < 100) {

@@ -20,28 +20,63 @@ export default function makeAnimations(scene) {
     };
     scene.anims.create(config);
 
+    // Mage Animations /////////////////////////////
+    config = {
+        key: 'mage-run',
+        frames: scene.anims.generateFrameNames('mage-sprite', {
+            prefix: 'mage/walk',
+            start: 1,
+            end: 4
+        }),
+        frameRate: 10,
+        repeat: -1,
+        repeatDelay: 0
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'mage-stand',
+        frames: [{
+            key: 'mage-sprite',
+            frame: 'mage/stand'
+        }]
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'mage-jump',
+        frames: [{
+            key: 'mage-sprite',
+            frame: 'mage/jump'
+        }]
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'mage-bend',
+        frames: [{
+            key: 'mage-sprite',
+            frame: 'mage/bend'
+        }]
+    };
+    scene.anims.create(config);
+
+    config = {
+        key: 'mage-turn',
+        frames: [{
+            key: 'mage-sprite',
+            frame: 'mage/turn'
+        }]
+    };
+    scene.anims.create(config);
+    /////////////////////////////////////////
+
     // Mario animations: One without suffix, super after mushroom and fire after flower
     ['', 'Super', 'Fire'].forEach((suffix) => {
-        config = {
-            key: 'run' + suffix,
-            frames: scene.anims.generateFrameNames('mario-sprites', {
-                prefix: 'mario/walk' + suffix,
-                start: 1,
-                end: 3
-            }),
-            frameRate: 10,
-            repeat: -1,
-            repeatDelay: 0
-        };
-        scene.anims.create(config);
-
         // Jump, Stand and Turn: one frame each
-        ['jump', 'stand', 'turn', 'bend'].forEach(
+        ['turn'].forEach(
             (anim) => {
-                if (anim === 'bend' && suffix === '') {
-                    // No bend animation when Mario is small
-                    return;
-                }
+
                 config.key = anim + suffix;
                 config.frames = [{
                     frame: 'mario/' + anim + suffix,

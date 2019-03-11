@@ -53,6 +53,7 @@ class BootScene extends Phaser.Scene {
         // Beginning of an atlas to replace the spritesheets above. Always use spriteatlases. I use TexturePacker to prepare them.
         // Check rawAssets folder for the TexturePacker project I use to prepare these files.
         this.load.atlas('mario-sprites', 'assets/mario-sprites.png', 'assets/mario-sprites.json');
+        this.load.atlas('mage-sprite', 'assets/images/wizard-sprite-32.png', 'assets/mage-sprite.json');
         this.load.atlas('ice-spell', 'assets/images/ice_spell.png', 'assets/ice-spell.json');
         this.load.atlas('skelegon-walk', 'assets/images/skelegon.png', 'assets/skelegon-walk.json');
         this.load.atlas('skeleton-walk', 'assets/images/skeleton-walk.png', 'assets/skeleton-walk.json');
