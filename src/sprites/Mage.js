@@ -119,7 +119,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
                 this.body.setVelocityX(0);
                 this.run(0);
             } else {
-                this.run(((this.body.velocity.x > 0) ? -1 : 1) * this.acceleration * 4);
+                this.run(((this.body.velocity.x > 0) ? -1 : 1) * this.acceleration * 8);
             }
         } else if (!this.body.blocked.down) {
             this.run(0);

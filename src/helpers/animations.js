@@ -334,7 +334,7 @@ export default function makeAnimations(scene) {
 
     config = {
         key: 'iceSpell',
-        frames: scene.anims.generateFrameNames('ice-spell', {
+        frames: scene.anims.generateFrameNames('ice_spell', {
             prefix: 'ice/projectile',
             start: 1,
             end: 3

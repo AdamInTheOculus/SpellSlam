@@ -54,7 +54,7 @@ class BootScene extends Phaser.Scene {
         // Check rawAssets folder for the TexturePacker project I use to prepare these files.
         this.load.atlas('mario-sprites', 'assets/mario-sprites.png', 'assets/mario-sprites.json');
         this.load.atlas('mage-sprite', 'assets/images/wizard-sprite-32.png', 'assets/mage-sprite.json');
-        this.load.atlas('ice-spell', 'assets/images/ice_spell.png', 'assets/ice-spell.json');
+        this.load.atlas('ice_spell', 'assets/images/ice_spell.png', 'assets/ice_spell.json');
         this.load.atlas('skelegon-walk', 'assets/images/skelegon.png', 'assets/skelegon-walk.json');
         this.load.atlas('skeleton-walk', 'assets/images/skeleton-walk.png', 'assets/skeleton-walk.json');
         this.load.atlas('skeleton-dead', 'assets/images/skeleton-dead.png', 'assets/skeleton-dead.json');
