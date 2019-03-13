@@ -58,10 +58,14 @@ export default function makeAnimations(scene) {
 
     config = {
         key: 'mage-bend',
-        frames: [{
-            key: 'mage-sprite',
-            frame: 'mage/bend'
-        }]
+        frames: scene.anims.generateFrameNames('mage-sprite', {
+            prefix: 'mage/bend',
+            start: 1,
+            end: 4
+        }),
+        frameRate: 4,
+        repeat: -1,
+        repeatDelay: 0
     };
     scene.anims.create(config);
 
@@ -329,9 +333,9 @@ export default function makeAnimations(scene) {
     scene.anims.create(config);
 
     config = {
-        key: 'ice_spell',
+        key: 'iceSpell',
         frames: scene.anims.generateFrameNames('ice-spell', {
-            prefix: 'ice/icicle',
+            prefix: 'ice/projectile',
             start: 1,
             end: 3
         }),

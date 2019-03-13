@@ -1,7 +1,7 @@
 {"frames": [
 
 {
-	"filename": "ice/icicle1",
+	"filename": "ice/projectile1",
 	"frame": {"x":0,"y":0,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -9,7 +9,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "ice/icicle2",
+	"filename": "ice/projectile2",
 	"frame": {"x":32,"y":0,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -17,7 +17,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "ice/icicle3",
+	"filename": "ice/projectile3",
 	"frame": {"x":128,"y":0,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
