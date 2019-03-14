@@ -88,7 +88,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
           this.fireCoolDown = 700;
         }
 
-        if(this.fireCoolDown<=20&&this.state==='ATTACKING'){
+        if(this.fireCoolDown>10&&this.fireCoolDown<=20){
           let fireball = this.scene.fireballs.get(this);
           if (fireball) {
             fireball.fire(this.x, this.y, keys.fire.x, keys.fire.y);
@@ -143,6 +143,12 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         }
         if (input.down) {
             this.state = 'BENDING';
+        }
+
+        if (input.down){
+            if(this.crouchCoolDown <= 10){
+                this.crouchCoolDown = 400;
+            }
         }
 
         if(input.fire||this.fireCoolDown>0){

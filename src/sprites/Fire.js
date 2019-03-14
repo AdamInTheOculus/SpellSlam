@@ -35,7 +35,7 @@ export default class Fire extends Phaser.GameObjects.Sprite {
         this.angle = Phaser.Math.Angle.Between(x, y, this.scene.cameras.main.scrollX+pointerX, this.scene.cameras.main.scrollY+pointerY)
         this.body.velocity.x =  600*Math.cos(this.angle);
         this.body.velocity.y = 600*Math.sin(this.angle);
-        this.play('iceSpell');
+        this.play('fireFly');
         this.scene.sound.playAudioSprite('sfx', 'smb_fireball');
 
         console.log(this.scene.physics.world.collide);

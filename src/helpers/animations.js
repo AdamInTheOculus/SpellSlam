@@ -339,7 +339,7 @@ export default function makeAnimations(scene) {
             start: 1,
             end: 3
         }),
-        frameRate: 10,
+        frameRate: 3,
         repeat: -1,
         repeatDelay: 0
     };
@@ -352,7 +352,7 @@ export default function makeAnimations(scene) {
             start: 1,
             end: 4
         }),
-        frameRate: 10,
+        frameRate: 4,
         repeat: -1,
         repeatDelay: 0
     };
