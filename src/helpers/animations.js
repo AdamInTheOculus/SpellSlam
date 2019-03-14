@@ -57,15 +57,11 @@ export default function makeAnimations(scene) {
     scene.anims.create(config);
 
     config = {
-        key: 'mage-bend',
-        frames: scene.anims.generateFrameNames('mage-sprite', {
-            prefix: 'mage/bend',
-            start: 1,
-            end: 4
-        }),
-        frameRate: 4,
-        repeat: -1,
-        repeatDelay: 0
+      key: 'mage-bend',
+      frames: [{
+          key: 'mage-sprite',
+          frame: 'mage/bend4'
+      }]
     };
     scene.anims.create(config);
 

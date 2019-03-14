@@ -1,5 +1,5 @@
 import Mage from '../sprites/Mage';
-import Goomba from '../sprites/Goomba';
+import Skeleton from '../sprites/Skeleton';
 import Skelegon from '../sprites/Skelegon';
 import PowerUp from '../sprites/PowerUp';
 import SMBTileSprite from '../sprites/SMBTileSprite';
@@ -20,8 +20,6 @@ class GameScene extends Phaser.Scene {
     create() {
         // This scene is either called to run in attract mode in the background of the title screen
         // or for actual gameplay. Attract mode is based on a JSON-recording.
-
-        this.attractMode = null;
 
 
         // Places to warp to (from pipes). These coordinates is used also to define current room (see below)
@@ -232,13 +230,6 @@ class GameScene extends Phaser.Scene {
     }
 
     tileCollision(sprite, tile) {
-        if (sprite.type === 'Skelegon') {
-            if (tile.y > Math.round(sprite.y / 16)) {
-                // Skelegons ignore the ground
-                return;
-            }
-        }
-
         // If it's Mario and the body isn't blocked up it can't hit question marks or break bricks
         // Otherwise Mario will break bricks he touch from the side while moving up.
         if (sprite.type === 'mario' && !sprite.body.blocked.up) {
@@ -368,14 +359,14 @@ class GameScene extends Phaser.Scene {
                 let enemyObject;
                 switch (this.tileset.tileProperties[enemy.gid - 1].name) {
                     case 'goomba':
-                        enemyObject = new Goomba({
+                        enemyObject = new Skeleton({
                             scene: this,
                             key: 'sprites16',
                             x: enemy.x,
                             y: enemy.y
                         });
                         break;
-                    case 'Skelegon':
+                    case 'turtle':
                         enemyObject = new Skelegon({
                             scene: this,
                             key: 'skelegon-walk',
@@ -443,7 +434,7 @@ class GameScene extends Phaser.Scene {
     }
 
     createHUD() {
-        const hud = this.add.bitmapText(5 * 8, 8, 'font', 'MAGE                      TIME', 8);
+        const hud = this.add.bitmapText(5 * 8, 8, 'font', 'MAGE                           TIME', 8);
         hud.setScrollFactor(0, 0);
         this.levelTimer = {
             textObject: this.add.bitmapText(36 * 8, 16, 'font', '0000', 8),
@@ -465,7 +456,7 @@ class GameScene extends Phaser.Scene {
     cleanUp() {
         // Never called since 3.10 update (I called it from create before). If Everything is fine, I'll remove this method.
         // Scenes isn't properly destroyed yet.
-        let ignore = ['sys', 'anims', 'cache', 'registry', 'sound', 'textures', 'events', 'cameras', 'make', 'add', 'scene', 'children', 'cameras3d', 'time', 'data', 'input', 'load', 'tweens', 'lights', 'physics'];
+        let ignore = ['sys', 'anims', 'registry', 'sound', 'textures', 'events', 'cameras', 'make', 'add', 'children', 'cameras3d', 'time', 'data', 'input', 'load', 'tweens', 'lights', 'physics'];
         let whatThisHad = ['sys', 'anims', 'cache', 'registry', 'sound', 'textures', 'events', 'cameras', 'make', 'add', 'scene', 'children', 'cameras3d', 'time', 'data', 'input', 'load', 'tweens', 'lights', 'physics', 'attractMode', 'destinations', 'rooms', 'eightBit', 'music', 'map', 'tileset', 'groundLayer', 'mario', 'enemyGroup', 'powerUps', 'keys', 'blockEmitter', 'bounceTile', 'levelTimer', 'score', 'finishLine', 'touchControls'];
         whatThisHad.forEach(key => {
             if (ignore.indexOf(key) === -1 && this[key]) {

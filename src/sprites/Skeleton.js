@@ -1,6 +1,6 @@
 import Enemy from './Enemy';
 
-export default class Goomba extends Enemy {
+export default class Skeleton extends Enemy {
     constructor(config) {
         super(config);
         this.body.setVelocity(0, 0).setBounce(0, 0).setCollideWorldBounds(false);

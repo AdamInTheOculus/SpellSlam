@@ -25,7 +25,6 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         // TIMERS
         this.jumpCoolDown = 0;
         this.runCoolDown = 0;
-        this.crouchCoolDown = 0;
         this.fireCoolDown = 0;
 
         this.spells = new Array(2);
@@ -42,6 +41,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
     update(keys, time, delta) {
         if (this.y > 2040) {
             // Really superdead, has been falling for a while.
+            resetKeys(keys);
             this.scene.scene.stop('GameScene');
             this.scene.scene.start('MenuScene');
         } //else if (this.y > 240 && this.alive) {
@@ -57,7 +57,6 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         this.fireCoolDown -= delta;
         this.jumpCoolDown -= delta;
         this.runCoolDown -= delta;
-        this.crouchCoolDown -= delta;
         ////////////////
 
         // Just run callbacks when hitting something from below or trying to enter it
@@ -84,7 +83,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
             fire: keys.fire.isDown
         };
 
-        if(input.fire && this.spells.includes('fire') && this.fireCoolDown < 0) {
+        if(input.fire && this.spells.includes('fire') && this.fireCoolDown <= 0) {
           this.fireCoolDown = 700;
         }
 
@@ -100,16 +99,18 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         }
 
         // MAGE CONTROLLER
-        if (input.left) {
+        if(this.body.blocked.left||this.body.blocked.right){
+            this.run(0);
+        }else if (input.left) {
             if (this.body.velocity.y === 0) {
-                this.run(-this.acceleration/2);
+                this.run(-this.acceleration);
             } else {  // jumping
                 this.run(-this.acceleration/3);
             }
             this.flipX = true;
         } else if (input.right) {
             if (this.body.velocity.y === 0) {
-                this.run(this.acceleration/2);
+                this.run(this.acceleration);
             } else {  // jumping
                 this.run(this.acceleration/3);
             }
@@ -145,16 +146,10 @@ export default class Mage extends Phaser.GameObjects.Sprite {
             this.state = 'BENDING';
         }
 
-        if (input.down){
-            if(this.crouchCoolDown <= 10){
-                this.crouchCoolDown = 400;
-            }
-        }
-
-        if(input.fire||this.fireCoolDown>0){
+        if(input.fire||this.fireCoolDown>0){ // attack animation overwrites all others
           this.state = 'ATTACKING';
         }else if(this.body.velocity.y===0&&this.body.velocity.x===0){ // not moving
-          if(!input.down&&!input.jump&&!input.fire&&!(this.state==='ATTACKING')&&!(this.state==='JUMPING')){ // not jumping or attacking
+          if(!input.down&&!input.jump&&!input.fire&&!(this.state==='ATTACKING')&&!(this.state==='JUMPING')&&!(this.state==='BENDING')){ // not jumping or attacking
             this.state = 'IDLE';
           }
         }
@@ -214,6 +209,15 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         this.alive = false;*/
     }
 
+    resetKeys(keys){
+      keys.jump.isDown = false;
+      keys.jump2.isDown = false;
+      keys.left.isDown = false;
+      keys.right.isDown = false;
+      keys.down.isDown = false;
+      keys.fire.isDown = false;
+    }
+
     animationStateMachine(state) {
       switch(state) {
         case 'ATTACKING':
@@ -229,7 +233,6 @@ export default class Mage extends Phaser.GameObjects.Sprite {
             this.anims.play('mage-jump');
             break;
         case 'BENDING':
-          if(this.crouchCoolDown===300)
           this.anims.play('mage-bend');
           break;
         case 'IDLE':

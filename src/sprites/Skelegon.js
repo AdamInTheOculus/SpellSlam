@@ -54,10 +54,6 @@ export default class Skelegon extends Enemy {
         // let verticalHit = Math.abs(enemy.x-mario.x)<Math.abs(enemy.y-mario.y);
 
         // console.log('vertical',verticalHit);
-        if (mario.star.active) {
-            enemy.hurtMario(enemy, mario);
-            return;
-        }
 
         if (enemy.verticalHit(enemy, mario)) {
             // get points
