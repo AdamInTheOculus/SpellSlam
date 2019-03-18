@@ -4,7 +4,7 @@ import Skelegon from '../sprites/Skelegon';
 import PowerUp from '../sprites/PowerUp';
 import SMBTileSprite from '../sprites/SMBTileSprite';
 import AnimatedTiles from 'phaser-animated-tiles/dist/AnimatedTiles.min.js';
-import Fire from '../sprites/Fire';
+import BasicAttack from '../sprites/BasicAttack';
 
 class GameScene extends Phaser.Scene {
     constructor(test) {
@@ -172,7 +172,7 @@ class GameScene extends Phaser.Scene {
             scene: this,
             key: 'mario',
             x: 16 * 6,
-            y: this.sys.game.config.height - 48 - 48
+            y: this.sys.game.config.height - 96
         });
 
         // Set bounds for current room
@@ -183,8 +183,8 @@ class GameScene extends Phaser.Scene {
 
         this.cameras.main.roundPixels = true;
 
-        this.fireballs = this.add.group({
-            classType: Fire,
+        this.potions = this.add.group({
+            classType: BasicAttack,
             maxSize: 10,
             runChildUpdate: false // Due to https://github.com/photonstorm/phaser/issues/3724
         });
@@ -197,7 +197,7 @@ class GameScene extends Phaser.Scene {
             this.record(delta);
         }
 
-        Array.from(this.fireballs.children.entries).forEach(
+        Array.from(this.potions.children.entries).forEach(
             (fireball) => {
                 fireball.update(time, delta);
             });

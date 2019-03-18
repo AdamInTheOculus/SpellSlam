@@ -3,33 +3,22 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         super(config.scene, config.x, config.y, config.key);
         config.scene.physics.world.enable(this);
         config.scene.add.existing(this);
-        this.acceleration = 150;
+        this.acceleration = 600;
         this.body.maxVelocity.x = 200;
         this.body.maxVelocity.y = 500;
-
-        //this.crouching = false;
-        //this.wasHurt = -1;
-        //this.flashToggle = false;
-        /*this.star = {
-            active: false,
-            timer: -1,
-            step: 0
-        };*/
 
         // STATE variables
         this.hp = 100;
         this.state = 'idle'
         this.alive = true;
-        this.type = 'mario';
+        this.wasHurt =  false;
 
         // TIMERS
         this.jumpCoolDown = 0;
         this.runCoolDown = 0;
         this.fireCoolDown = 0;
 
-        this.spells = new Array(2);
-
-        this.spells[0] = 'fire'
+        this.spells = new Map();
 
         this.on('animationcomplete', () => {
             if (this.anims.currentAnim.key === 'mage-attk' || this.anims.currentAnim.key === 'mage-jump') {
@@ -41,7 +30,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
     update(keys, time, delta) {
         if (this.y > 2040) {
             // Really superdead, has been falling for a while.
-            resetKeys(keys);
+            this.resetKeys(keys);
             this.scene.scene.stop('GameScene');
             this.scene.scene.start('MenuScene');
         } //else if (this.y > 240 && this.alive) {
@@ -65,7 +54,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         } else {
             this.scene.physics.world.collide(this, this.scene.groundLayer);
         }
-        /*
+
         if (this.wasHurt > 0) {
             this.wasHurt -= delta;
             this.flashToggle = !this.flashToggle;
@@ -74,7 +63,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
                 this.alpha = 1;
             }
         }
-        */
+
         let input = {
             left: keys.left.isDown || this.scene.touchControls.left,
             right: keys.right.isDown || this.scene.touchControls.right,
@@ -83,14 +72,14 @@ export default class Mage extends Phaser.GameObjects.Sprite {
             fire: keys.fire.isDown
         };
 
-        if(input.fire && this.spells.includes('fire') && this.fireCoolDown <= 0) {
+        if(input.fire && this.fireCoolDown <= 0) {
           this.fireCoolDown = 700;
         }
 
-        if(this.fireCoolDown>10&&this.fireCoolDown<=20){
-          let fireball = this.scene.fireballs.get(this);
+        if(this.fireCoolDown>5&&this.fireCoolDown<=20){
+          let fireball = this.scene.potions.get(this);
           if (fireball) {
-            fireball.fire(this.x, this.y, keys.fire.x, keys.fire.y);
+            fireball.shoot(this.x, this.y, keys.fire.x, keys.fire.y);
           }
         }
 
@@ -100,7 +89,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
 
         // MAGE CONTROLLER
         if(this.body.blocked.left||this.body.blocked.right){
-            this.run(0);
+            this.stop();
         }else if (input.left) {
             if (this.body.velocity.y === 0) {
                 this.run(-this.acceleration);
@@ -117,13 +106,12 @@ export default class Mage extends Phaser.GameObjects.Sprite {
             this.flipX = false;
         } else if (this.body.blocked.down) {
             if (Math.abs(this.body.velocity.x) < 10) {
-                this.body.setVelocityX(0);
-                this.run(0);
+                this.stop();
             } else {
-                this.run(((this.body.velocity.x > 0) ? -1 : 1) * this.acceleration * 8);
+                this.run(((this.body.velocity.x > 0) ? -1 : 1) * this.acceleration);
             }
         } else if (!this.body.blocked.down) {
-            this.run(0);
+            this.stop();
         }
 
         if (input.jump && (!(this.state==='JUMPING') || this.jumpCoolDown > 0)) {
@@ -136,7 +124,7 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         }
 
         // ANIMATION STATE MACHINE
-        if (this.body.velocity.x !== 0) {
+        if (input.right||input.left) {
             this.state = 'RUNNING';
         }
         if (input.jump && this.body.velocity.y !== 0) {
@@ -159,6 +147,11 @@ export default class Mage extends Phaser.GameObjects.Sprite {
         this.physicsCheck = true;
     }
 
+    stop(){
+      this.body.setVelocityX(0);
+      this.run(0);
+    }
+
     run(vel) {
         this.body.setAccelerationX(vel);
         if (!(this.state==='RUNNING')) { // set jump cooldown
@@ -167,19 +160,15 @@ export default class Mage extends Phaser.GameObjects.Sprite {
     }
 
     jump() {
-        if (!(this.state==='JUMPING')) {
-            if (this.animSuffix === '') {
-                this.scene.sound.playAudioSprite('sfx', 'smb_jump-small');
-            } else {
-                this.scene.sound.playAudioSprite('sfx', 'smb_jump-super');
-            }
-        }
+      if(this.body.velocity.y===0){
         if (this.body.velocity.y < 0 || this.body.blocked.down) {
-            this.body.setVelocityY(-200);
+            this.body.setVelocityY(-350);
         }
-        if (!(this.state==='JUMPING')) { // set jump cooldown
+        if (!(this.state==='JUMPING')) {
+            this.scene.sound.playAudioSprite('sfx', 'smb_jump-super');
             this.jumpCoolDown = 300;
         }
+      }
     }
 
     enemyBounce(enemy) {

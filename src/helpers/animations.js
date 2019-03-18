@@ -329,8 +329,17 @@ export default function makeAnimations(scene) {
     scene.anims.create(config);
 
     config = {
+        key: 'potionGreen',
+        frames: [{
+            frame: 'potion/green',
+            key: 'potion-sprites'
+        }]
+    };
+    scene.anims.create(config);
+
+    config = {
         key: 'iceSpell',
-        frames: scene.anims.generateFrameNames('ice_spell', {
+        frames: scene.anims.generateFrameNames('ice-spell', {
             prefix: 'ice/projectile',
             start: 1,
             end: 3

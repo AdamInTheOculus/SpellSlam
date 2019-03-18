@@ -20,7 +20,7 @@ export default class Ice extends Phaser.GameObjects.Sprite {
         }, this);
     }
 
-    ice(x, y, pointerX, pointerY) {
+    shoot(x, y, pointerX, pointerY) {
         this.setActive(true);
         this.setVisible(true);
 

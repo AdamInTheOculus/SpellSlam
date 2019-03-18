@@ -2,7 +2,7 @@
 
 	{
 		"filename": "skelegon/dead1",
-		"frame": {"x":0,"y":396,"w":33,"h":32},
+		"frame": {"x":0,"y":396,"w":106,"h":132},
 		"rotated": false,
 		"trimmed": false,
 		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
@@ -10,7 +10,7 @@
 	},
 	{
 		"filename": "skelegon/dead2",
-		"frame": {"x":106,"y":396,"w":33,"h":32},
+		"frame": {"x":106,"y":396,"w":106,"h":132},
 		"rotated": false,
 		"trimmed": false,
 		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
@@ -18,7 +18,7 @@
 	},
 	{
 		"filename": "skelegon/dead3",
-		"frame": {"x":212,"y":396,"w":33,"h":32},
+		"frame": {"x":212,"y":396,"w":106,"h":132},
 		"rotated": false,
 		"trimmed": false,
 		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
@@ -26,7 +26,7 @@
 	},
 	{
 		"filename": "skelegon/dead4",
-		"frame": {"x":318,"y":396,"w":33,"h":32},
+		"frame": {"x":318,"y":396,"w":106,"h":132},
 		"rotated": false,
 		"trimmed": false,
 		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
@@ -34,7 +34,7 @@
 	},
 	{
 		"filename": "skelegon/dead5",
-		"frame": {"x":414,"y":396,"w":33,"h":32},
+		"frame": {"x":414,"y":396,"w":106,"h":132},
 		"rotated": false,
 		"trimmed": false,
 		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
@@ -42,7 +42,7 @@
 	},
 	{
 		"filename": "skelegon/dead6",
-		"frame": {"x":520,"y":396,"w":33,"h":32},
+		"frame": {"x":520,"y":396,"w":106,"h":132},
 		"rotated": false,
 		"trimmed": false,
 		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
@@ -50,7 +50,7 @@
 	},
 	{
 		"filename": "skelegon/dead7",
-		"frame": {"x":626,"y":396,"w":33,"h":32},
+		"frame": {"x":626,"y":396,"w":106,"h":132},
 		"rotated": false,
 		"trimmed": false,
 		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
@@ -58,7 +58,7 @@
 	},
 	{
 		"filename": "skelegon/dead8",
-		"frame": {"x":732,"y":396,"w":33,"h":32},
+		"frame": {"x":732,"y":396,"w":106,"h":132},
 		"rotated": false,
 		"trimmed": false,
 		"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
